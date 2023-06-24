@@ -171,10 +171,6 @@ export default function CustomTable({ data, columns }: TableProps) {
 								: data
 							).map((row: any) => (
 								<TableRow key={row.id}>
-									<TableCell component="th" scope="row">
-										{row.name}
-									</TableCell>
-
 									{Object.keys(row).map((key) => (
 										<TableCell key={key} style={{ width: 160 }} align="right">
 											{row[key]}
