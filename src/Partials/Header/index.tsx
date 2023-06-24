@@ -161,7 +161,7 @@ function Header() {
 						>
 							{settings.map((setting) => (
 								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Text textAlign="center" title={setting} />
+									<Text variant="h6" textAlign="center" title={setting} />
 								</MenuItem>
 							))}
 						</Menu>
