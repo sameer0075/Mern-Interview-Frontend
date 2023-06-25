@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ErrorBoundary from "../../Partials/ErrorBoundary";
 import { CustomModal } from "../../Partials/Modal";
 import CustomTable from "../../Partials/Table";
 import { CarsList, DeleteCar } from "../../redux/Slices/carsSlice";
@@ -31,7 +32,8 @@ export default function Cars() {
 		}));
 	};
 	return (
-		<div>
+		<ErrorBoundary>
+					<div>
 			<div
 				style={{
 					width: "90vw",
@@ -75,5 +77,6 @@ export default function Cars() {
 				/>
 			</CustomModal>
 		</div>
+		</ErrorBoundary>
 	);
 }

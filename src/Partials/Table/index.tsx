@@ -18,6 +18,7 @@ import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ErrorBoundary from "../ErrorBoundary";
 
 interface TablePaginationActionsProps {
 	count: number;
@@ -150,6 +151,7 @@ export default function CustomTable({
 	}));
 
 	return (
+		<ErrorBoundary>
 		<div>
 			<div
 				style={{
@@ -185,9 +187,10 @@ export default function CustomTable({
 								<TableRow key={row.id}>
 									{Object.keys(row).map((key) => (
 										<TableCell key={key} style={{ width: 160 }}>
-											{row[key] != null && typeof row[key] === "object"
+											{/* {row[key] != null && typeof row[key] === "object"
 												? row[key].name
-												: row[key]}
+												: row[key]} */}
+												{row[key]}
 										</TableCell>
 									))}
 									<TableCell key={row.id} style={{ width: 160 }}>
@@ -232,5 +235,6 @@ export default function CustomTable({
 				</TableContainer>
 			</div>
 		</div>
+		</ErrorBoundary>
 	);
 }

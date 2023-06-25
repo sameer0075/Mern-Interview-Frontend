@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ErrorBoundary from "../../Partials/ErrorBoundary";
 import { CustomModal } from "../../Partials/Modal";
 
 import CustomTable from "../../Partials/Table";
@@ -33,6 +34,7 @@ export default function Category() {
 	};
 
 	return (
+		<ErrorBoundary>
 		<div>
 			<div
 				style={{
@@ -67,5 +69,6 @@ export default function Category() {
 				/>
 			</CustomModal>
 		</div>
+		</ErrorBoundary>
 	);
 }
