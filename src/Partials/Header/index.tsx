@@ -42,8 +42,12 @@ function Header() {
 		setAnchorElNav(null);
 	};
 
-	const handleCloseUserMenu = () => {
+	const handleCloseUserMenu = (value:string) => {
 		setAnchorElUser(null);
+		if(value == 'Logout') {
+			sessionStorage.removeItem("token")
+			window.location.href = '/'
+		}
 	};
 
 	return (
@@ -163,7 +167,7 @@ function Header() {
 							onClose={handleCloseUserMenu}
 						>
 							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
+								<MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
 									<Text variant="h6" textAlign="center" title={setting} />
 								</MenuItem>
 							))}

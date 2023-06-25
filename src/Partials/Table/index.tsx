@@ -187,10 +187,9 @@ export default function CustomTable({
 								<TableRow key={row.id}>
 									{Object.keys(row).map((key) => (
 										<TableCell key={key} style={{ width: 160 }}>
-											{/* {row[key] != null && typeof row[key] === "object"
+											{row[key] != null && typeof row[key] === "object"
 												? row[key].name
-												: row[key]} */}
-												{row[key]}
+												: row[key]}
 										</TableCell>
 									))}
 									<TableCell key={row.id} style={{ width: 160 }}>
