@@ -1,52 +1,77 @@
-import { Box, TextField, Button } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import AuthPage from "./index";
+import { ErrorMsg } from "../../Partials/ErrorMsg";
+import { loginSchema } from "../../Schema";
+import { Field, Formik, useFormik } from "formik";
+import { LoginUser } from "../../redux/Slices/usersSlice";
+import { toast } from "react-toastify";
+import { url } from "../../redux/url";
+import axios from "axios";
 
 export default function Login() {
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
+	const dispatch: any = useDispatch();
+	const isLoading = useSelector((state: any) => state.category.isLoading);
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+			password: "",
+		},
+		validationSchema: loginSchema,
+		onSubmit: (values) => {},
+	});
+	const handleSubmit = (values: any) => {
+		axios
+			.post(`${url}/users/login`, values)
+			.then((response: any) => {
+				let token = response.data.token;
+				sessionStorage.setItem("token", token);
+				toast.info("User Logged in successfully");
+				window.location.href = "/dashboard";
+			})
+			.catch((err: any) => {
+				console.log(err);
+				toast.error("Invalid Credentials");
+			});
 	};
 	return (
 		<AuthPage title="Sign In">
-			<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					id="email"
-					label="Email Address"
-					name="email"
-					autoComplete="email"
-					autoFocus
-				/>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					name="password"
-					label="Password"
-					type="password"
-					id="password"
-					autoComplete="current-password"
-				/>
-				<Button
-					type="submit"
-					fullWidth
-					variant="contained"
-					sx={{ mt: 3, mb: 2 }}
-				>
-					Sign In
-				</Button>
-			</Box>
-			<Link style={{ color: "#1565C0" }} to="/register">
-				Dont have an account?
-			</Link>
+			<Formik
+				initialValues={{
+					email: "",
+					password: "",
+				}}
+				validationSchema={loginSchema}
+				onSubmit={handleSubmit}
+			>
+				{({ handleSubmit }) => (
+					<form onSubmit={handleSubmit}>
+						<Field name="email">
+							{({ field }: any) => <TextField label="Email" {...field} />}
+						</Field>
+						<ErrorMsg name="email" />
+
+						<div style={{ padding: 5 }}></div>
+
+						<Field name="password">
+							{({ field }: any) => <TextField label="Password" {...field} />}
+						</Field>
+						<ErrorMsg name="password" />
+						<div style={{ padding: 5 }}></div>
+
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+							size="large"
+							fullWidth
+							sx={{ mt: 2 }}
+						>
+							Submit
+						</Button>
+					</form>
+				)}
+			</Formik>
 		</AuthPage>
 	);
 }

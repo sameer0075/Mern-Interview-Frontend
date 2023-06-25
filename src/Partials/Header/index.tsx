@@ -12,6 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Text } from "../Text";
 
 const pages = ["Categories", "Cars"];
@@ -27,7 +28,6 @@ function Header() {
 	);
 
 	const navigateToUrl = (url: string) => {
-		console.log(url);
 		navigation(url);
 	};
 
@@ -52,7 +52,10 @@ function Header() {
 				<Toolbar disableGutters>
 					<AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
 					<Text
-						onClick={() => navigateToUrl("/")}
+						onClick={() => {
+							const token = sessionStorage.getItem("token")
+							token ? navigateToUrl("/dashboard") : navigateToUrl("/")
+						}}
 						variant="h6"
 						noWrap
 						component="a"
@@ -140,7 +143,7 @@ function Header() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+								<AccountCircleIcon sx={{ fontSize: "2rem", color: "white" }} />
 							</IconButton>
 						</Tooltip>
 						<Menu

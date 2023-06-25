@@ -11,12 +11,15 @@ interface TextProps {
 	sx?: any;
 	color?: string;
 	gutterBottom?: boolean;
+	align?: any;
+	id?: string;
 	onClick?: () => void;
 }
 
 export function Text({
 	title,
 	className,
+	id,
 	textAlign,
 	variant = "h3",
 	noWrap,
@@ -24,6 +27,7 @@ export function Text({
 	sx,
 	color,
 	gutterBottom,
+	align,
 	onClick,
 }: TextProps) {
 	return (
@@ -33,6 +37,8 @@ export function Text({
 			textAlign={textAlign}
 			component={component}
 			sx={sx}
+			id={id}
+			align={align}
 			className={className}
 			variant={variant}
 			color={color}

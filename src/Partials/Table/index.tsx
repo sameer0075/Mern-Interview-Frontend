@@ -13,9 +13,11 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import { Button, TableHead } from "@mui/material";
+import { TableHead } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface TablePaginationActionsProps {
 	count: number;
@@ -30,6 +32,9 @@ interface TablePaginationActionsProps {
 interface TableProps {
 	data: any[];
 	columns: string[];
+	apiCall?: any;
+	handleDelete?: any;
+	handleSelection?: any;
 }
 
 function TablePaginationActions(props: TablePaginationActionsProps) {
@@ -102,9 +107,19 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 	);
 }
 
-export default function CustomTable({ data, columns }: TableProps) {
+export default function CustomTable({
+	data,
+	columns,
+	apiCall,
+	handleDelete,
+	handleSelection,
+}: TableProps) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+	React.useEffect(() => {
+		apiCall(`?page=${page == 0 ? page + 1 : page}&limit=${rowsPerPage}`);
+	}, [page, rowsPerPage]);
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows =
@@ -138,15 +153,12 @@ export default function CustomTable({ data, columns }: TableProps) {
 		<div>
 			<div
 				style={{
-					width: "90vw",
 					display: "flex",
-					justifyContent: "right",
-					paddingTop: "1rem",
+					justifyContent: "center",
+					height: "65vh",
+					overflow: "auto",
 				}}
 			>
-				<Button variant="contained">Add</Button>
-			</div>
-			<div style={{ display: "flex", justifyContent: "center" }}>
 				<TableContainer
 					sx={{
 						margin: 1,
@@ -172,10 +184,22 @@ export default function CustomTable({ data, columns }: TableProps) {
 							).map((row: any) => (
 								<TableRow key={row.id}>
 									{Object.keys(row).map((key) => (
-										<TableCell key={key} style={{ width: 160 }} align="right">
-											{row[key]}
+										<TableCell key={key} style={{ width: 160 }}>
+											{row[key] != null && typeof row[key] === "object"
+												? row[key].name
+												: row[key]}
 										</TableCell>
 									))}
+									<TableCell key={row.id} style={{ width: 160 }}>
+										<EditIcon
+											onClick={() => {
+												handleSelection("show")(true);
+												handleSelection("selectedData")(row);
+											}}
+										/>{" "}
+										&nbsp; &nbsp;
+										<DeleteIcon onClick={() => handleDelete(row.id)} />
+									</TableCell>
 								</TableRow>
 							))}
 							{emptyRows > 0 && (

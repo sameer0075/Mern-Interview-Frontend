@@ -18,6 +18,9 @@ export const PublicRoutes = [
 		path: "/verify-otp",
 		component: <OtpVerification />,
 	},
+];
+
+export const PrivateRoutes = [
 	{
 		path: "/dashboard",
 		component: <Dashboard />,
@@ -31,5 +34,3 @@ export const PublicRoutes = [
 		component: <Cars />,
 	},
 ];
-
-export const PrivateRoutes = [];
