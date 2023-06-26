@@ -36,14 +36,18 @@ export default function AddCar({ closeModal, selectedData }: AddCarInterface) {
 		if (selectedData) {
 			Object.assign(values, { id: selectedData.id });
 			dispatch(UpdateCar(values))
-				.then(() => {
-					closeModal();
+				.then((response:any) => {
+					if(!response.payload.error) {
+						closeModal();
+					}
 				})
 				.catch(() => {});
 		} else {
 			dispatch(AddNewCar(values))
-				.then(() => {
-					closeModal();
+				.then((response:any) => {
+					if(!response.payload.error) {
+						closeModal();
+					}
 				})
 				.catch(() => {});
 		}

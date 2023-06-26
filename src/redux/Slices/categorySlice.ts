@@ -95,7 +95,7 @@ const categorySlice = createSlice({
 			.addCase(AddNewCategory.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.category = action.payload;
-				state.categories.push(action.payload);
+				state.categories = [action.payload, ...state.categories];
 				toast.info("Data created successfully");
 			})
 			.addCase(AddNewCategory.rejected, (state, action: any) => {

@@ -111,7 +111,7 @@ const carsSlice = createSlice({
 			.addCase(AddNewCar.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.car = action.payload;
-				state.cars.push(action.payload);
+				state.cars = [action.payload, ...state.cars];
 				toast.info("Data created successfully");
 			})
 			.addCase(AddNewCar.rejected, (state, action: any) => {

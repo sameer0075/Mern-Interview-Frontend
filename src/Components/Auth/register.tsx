@@ -34,7 +34,7 @@ export default function Register() {
 				console.log(err);
 				handleChange("showOtp")(false)
 				handleChange("email")(null)
-				toast.error("Invalid Credentials");
+				toast.error(err?.response?.data?.message);
 			});
 	};
 	return (

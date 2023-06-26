@@ -35,14 +35,18 @@ export default function AddCategory({
 		if (selectedData) {
 			Object.assign(values, { id: selectedData.id });
 			dispatch(UpdateCategory(values))
-				.then(() => {
-					closeModal();
+				.then((response:any) => {
+					if(!response.payload.error) {
+						closeModal();
+					}
 				})
 				.catch(() => {});
 		} else {
 			dispatch(AddNewCategory(values))
-				.then(() => {
-					closeModal();
+				.then((response:any) => {
+					if(!response.payload.error) {
+						closeModal();
+					}
 				})
 				.catch(() => {});
 		}
