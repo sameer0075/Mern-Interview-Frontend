@@ -19,7 +19,6 @@ export default function AddCategory({
 	closeModal,
 	selectedData,
 }: AddNewCategoryInterface) {
-	console.log("selectedData", selectedData);
 	const dispatch: any = useDispatch();
 	const categories = useSelector((state: any) => state.category.categories);
 	const isLoading = useSelector((state: any) => state.category.isLoading);

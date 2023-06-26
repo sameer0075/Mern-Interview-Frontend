@@ -6,6 +6,8 @@ import { url } from "../url";
 import {
 	AddUserInterface,
 	LoginUserInterface,
+	OtpUserInterface,
+	ResendOtpUserInterface,
 	UsersListInterface,
 } from "../interfaces/Users";
 
@@ -81,8 +83,38 @@ export const DeleteUser = createAsyncThunk(
 	}
 );
 
+export const VerifyOtp = createAsyncThunk(
+	"users/verify-otp",
+	async (data: OtpUserInterface, thunkAPI) => {
+		try {
+			const resp = await api.post<UsersListInterface>(
+				`${url}/users/verify-otp`,
+				data
+			);
+			return resp;
+		} catch (error: any) {
+			return thunkAPI.rejectWithValue(error.response.data);
+		}
+	}
+);
+
+export const ResendOtp = createAsyncThunk(
+	"users/resend-otp",
+	async (data: ResendOtpUserInterface, thunkAPI) => {
+		try {
+			const resp = await api.post<UsersListInterface>(
+				`${url}/users/resend-otp`,
+				data
+			);
+			return resp;
+		} catch (error: any) {
+			return thunkAPI.rejectWithValue(error.response.data);
+		}
+	}
+);
+
 const userSlice = createSlice({
-	name: "category",
+	name: "user",
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
@@ -98,6 +130,43 @@ const userSlice = createSlice({
 				const message: string = action.payload.message;
 				state.isLoading = false;
 				toast.info(message);
+			})
+			.addCase(VerifyOtp.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(VerifyOtp.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.user = action.payload;
+				toast.info("Otp Validated Successfully")
+			})
+			.addCase(VerifyOtp.rejected, (state, action: any) => {
+				const message: any = action.payload.message;
+				state.isLoading = false;
+				if (typeof message === "string") {
+					toast.error(message);
+				} else {
+					message?.map((msg: string) => {
+						return toast.error(msg);
+					});
+				}
+			})
+			.addCase(ResendOtp.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(ResendOtp.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.user = action.payload;
+			})
+			.addCase(ResendOtp.rejected, (state, action: any) => {
+				const message: any = action.payload.message;
+				state.isLoading = false;
+				if (typeof message === "string") {
+					toast.error(message);
+				} else {
+					message?.map((msg: string) => {
+						return toast.error(msg);
+					});
+				}
 			})
 			.addCase(UsersList.pending, (state) => {
 				state.isLoading = true;

@@ -25,3 +25,7 @@ export interface OtpUserInterface {
 	email: string;
 	otp: string;
 }
+
+export interface ResendOtpUserInterface {
+	email: string;
+}

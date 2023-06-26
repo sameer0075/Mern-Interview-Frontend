@@ -8,6 +8,7 @@ import { LoginUser } from "../../redux/Slices/usersSlice";
 import { toast } from "react-toastify";
 import { url } from "../../redux/url";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Login() {
 	const dispatch: any = useDispatch();
@@ -72,6 +73,9 @@ export default function Login() {
 					</form>
 				)}
 			</Formik>
+			<Link style={{ color: "#1565C0",marginTop:'1rem' }} to="/register">
+				Don't have an account?
+			</Link>
 		</AuthPage>
 	);
 }

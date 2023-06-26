@@ -8,11 +8,19 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Chart from "./chart";
+import { useDispatch, useSelector } from "react-redux";
+import { getCount } from "../../redux/Slices/carsSlice";
 
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
 	const [open, setOpen] = React.useState(true);
+	const dispatch:any = useDispatch()
+	const totalCars = useSelector((state: any) => state.cars.totalCars);
+
+	React.useEffect(()=>{
+		dispatch(getCount(null))
+	},[])
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<Box sx={{ display: "flex" }}>
@@ -41,7 +49,7 @@ export default function Dashboard() {
 										height: 240,
 									}}
 								>
-									<Chart />
+									<Chart totalCars={totalCars}/>
 								</Paper>
 							</Grid>
 						</Grid>

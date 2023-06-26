@@ -1,48 +1,89 @@
 import { Box, TextField, Button } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Field, Formik,useFormikContext } from "formik";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { ErrorMsg } from "../../Partials/ErrorMsg";
+import { ResendOtpUserInterface } from "../../redux/interfaces/Users";
+import { ResendOtp, VerifyOtp } from "../../redux/Slices/usersSlice";
+import { otpVerificationSchema } from "../../Schema";
 import AuthPage from "./index";
 
-export default function OtpVerification() {
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
+interface OtpVerificationProps {
+	email?: string | any;
+}
+
+export default function OtpVerification({ email }: OtpVerificationProps) {
+	const dispatch: any = useDispatch();
+	const navigation = useNavigate()
+
+
+	const handleSubmit = (values: any) => {
+		dispatch(VerifyOtp(values)).then((response:any)=>{
+			if(!response.payload.error) {
+				navigation("/")
+			}
+		}).catch(()=>{
+
+		});
 	};
-	return (
-		<AuthPage title="Enter Otp">
-			<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					id="email"
-					label="Email Address"
-					name="email"
-					autoComplete="email"
-					autoFocus
-				/>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					name="code"
-					label="Code"
-					type="text"
-					id="code"
-					autoComplete="Code"
-				/>
-				<Button
-					type="submit"
-					fullWidth
-					variant="contained"
-					sx={{ mt: 3, mb: 2 }}
+
+	const resendOtp = () => {
+		let obj:ResendOtpUserInterface = {
+			email
+		}
+		dispatch(ResendOtp(obj));
+	}
+
+	function renderForm() {
+		return (
+			<>
+				<Formik
+					initialValues={{
+						email: email ? email : "",
+						otp: "",
+					}}
+					validationSchema={otpVerificationSchema}
+					onSubmit={handleSubmit}
 				>
-					Submit
-				</Button>
-			</Box>
-			<Link style={{ color: "#1565C0" }} to="/">
-				Back to login?
-			</Link>
-		</AuthPage>
+					{({ handleSubmit }) => (
+						<form onSubmit={handleSubmit}>
+							{!email && (
+								<>
+									<Field name="email">
+										{({ field }: any) => <TextField label="Email" {...field} />}
+									</Field>
+									<ErrorMsg name="email" />
+								</>
+							)}
+
+							<div style={{ padding: 5 }}></div>
+
+							<Field name="otp">
+								{({ field }: any) => <TextField label="Otp" {...field} />}
+							</Field>
+							<ErrorMsg name="otp" />
+							<div style={{ padding: 5 }}></div>
+
+							<Button
+								type="submit"
+								variant="contained"
+								color="primary"
+								size="large"
+								fullWidth
+								sx={{ mt: 2 }}
+							>
+								Submit
+							</Button>
+						</form>
+					)}
+				</Formik>
+			</>
+		);
+	}
+	return !email ? (
+		<AuthPage title="Enter Otp">{renderForm()}</AuthPage>
+	) : (
+		<div>{renderForm()}</div>
 	);
 }

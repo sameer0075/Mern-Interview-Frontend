@@ -27,7 +27,11 @@ const data = [
 	createData("24:00", undefined),
 ];
 
-export default function Chart() {
+interface CarsCountInterface {
+	totalCars:number
+}
+
+export default function Chart({totalCars}:CarsCountInterface) {
 	const theme = useTheme();
 
 	return (
@@ -68,7 +72,7 @@ export default function Chart() {
 								...theme.typography.body1,
 							}}
 						>
-							Total Cars Count
+							Total Cars = {totalCars || 0}
 						</Label>
 					</YAxis>
 					<Line

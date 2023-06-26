@@ -3,12 +3,13 @@ import axios from "axios";
 import api from "../BaseClass/index";
 import { toast } from "react-toastify";
 import { url } from "../url";
-import { AddCarInterface, CarsListInterface } from "../interfaces/Cars";
+import { AddCarInterface, CarsCount, CarsListInterface } from "../interfaces/Cars";
 
 const initialState = {
 	isLoading: <boolean>false,
 	cars: <CarsListInterface[]>[],
 	car: <CarsListInterface>{},
+	totalCars:<number>0
 };
 
 export const CarsList = createAsyncThunk("cars/list", async (param: string) => {
@@ -47,6 +48,20 @@ export const UpdateCar = createAsyncThunk(
 	}
 );
 
+export const getCount = createAsyncThunk(
+	"cars/count",
+	async (data:any,thunkAPI) => {
+		try {
+			const resp = await api.get<CarsCount>(
+				`${url}/cars/count`,
+			);
+			return resp;
+		} catch (error: any) {
+			return thunkAPI.rejectWithValue(error.response.data);
+		}
+	}
+);
+
 export const DeleteCar = createAsyncThunk(
 	"cars/delete",
 	async (data: any, thunkAPI) => {
@@ -73,6 +88,18 @@ const carsSlice = createSlice({
 				state.cars = action.payload;
 			})
 			.addCase(CarsList.rejected, (state, action: any) => {
+				const message: string = action.payload.message;
+				state.isLoading = false;
+				toast.info(message);
+			})
+			.addCase(getCount.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(getCount.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.totalCars = action.payload.count;
+			})
+			.addCase(getCount.rejected, (state, action: any) => {
 				const message: string = action.payload.message;
 				state.isLoading = false;
 				toast.info(message);

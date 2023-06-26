@@ -9,6 +9,10 @@ export interface CarsListInterface {
 	category_id: any;
 }
 
+export interface CarsCount {
+	count: number;
+}
+
 export interface AddCarInterface {
 	name: string;
 	color: string;

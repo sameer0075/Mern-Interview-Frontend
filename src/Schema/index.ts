@@ -26,3 +26,8 @@ export const registerSchema = Yup.object({
 	phone: Yup.string().required("Phone is required"),
 	password: Yup.string().required("Password is required"),
 });
+
+export const otpVerificationSchema = Yup.object({
+	email: Yup.string().required("Email is required"),
+	otp: Yup.string().required("Otp is required"),
+});
