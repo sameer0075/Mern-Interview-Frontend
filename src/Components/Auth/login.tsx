@@ -32,7 +32,7 @@ export default function Login() {
 			})
 			.catch((err: any) => {
 				console.log(err);
-				toast.error("Invalid Credentials");
+				toast.error(err?.response?.data?.message || "Invalid Credentials");
 			});
 	};
 	return (
