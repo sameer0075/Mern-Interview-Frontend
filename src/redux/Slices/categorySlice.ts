@@ -84,9 +84,9 @@ const categorySlice = createSlice({
 				state.categories = action.payload;
 			})
 			.addCase(CategoryList.rejected, (state, action: any) => {
-				const message: string = action.payload.message;
+				const message: string = action.error.message;
 				state.isLoading = false;
-				toast.info(message);
+				toast.error(message);
 			})
 
 			.addCase(AddNewCategory.pending, (state) => {
@@ -99,7 +99,7 @@ const categorySlice = createSlice({
 				toast.info("Data created successfully");
 			})
 			.addCase(AddNewCategory.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
@@ -125,7 +125,7 @@ const categorySlice = createSlice({
 				toast.info("Data updated successfully");
 			})
 			.addCase(UpdateCategory.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
@@ -150,7 +150,7 @@ const categorySlice = createSlice({
 				toast.info("Data updated successfully");
 			})
 			.addCase(DeleteCategory.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);

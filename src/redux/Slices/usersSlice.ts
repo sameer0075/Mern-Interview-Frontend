@@ -127,7 +127,7 @@ const userSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(LoginUser.rejected, (state, action: any) => {
-				const message: string = action.payload.message;
+				const message: string = action.error.message;
 				state.isLoading = false;
 				toast.info(message);
 			})
@@ -140,7 +140,7 @@ const userSlice = createSlice({
 				toast.info("Otp Validated Successfully")
 			})
 			.addCase(VerifyOtp.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
@@ -158,7 +158,7 @@ const userSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(ResendOtp.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
@@ -176,7 +176,7 @@ const userSlice = createSlice({
 				state.users = action.payload;
 			})
 			.addCase(UsersList.rejected, (state, action: any) => {
-				const message: string = action.payload.message;
+				const message: string = action.error.message;
 				state.isLoading = false;
 				toast.info(message);
 			})
@@ -191,7 +191,7 @@ const userSlice = createSlice({
 				toast.info("Data created successfully");
 			})
 			.addCase(AddNewUser.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
@@ -211,7 +211,7 @@ const userSlice = createSlice({
 				toast.info("Data updated successfully");
 			})
 			.addCase(UpdateUser.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
@@ -236,7 +236,7 @@ const userSlice = createSlice({
 				toast.info("Data updated successfully");
 			})
 			.addCase(DeleteUser.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);

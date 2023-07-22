@@ -88,7 +88,8 @@ const carsSlice = createSlice({
 				state.cars = action.payload;
 			})
 			.addCase(CarsList.rejected, (state, action: any) => {
-				const message: string = action.payload.message;
+				console.log("message",action)
+				const message: string = action.error.message;
 				state.isLoading = false;
 				toast.info(message);
 			})
@@ -100,7 +101,7 @@ const carsSlice = createSlice({
 				state.totalCars = action.payload.count;
 			})
 			.addCase(getCount.rejected, (state, action: any) => {
-				const message: string = action.payload.message;
+				const message: string = action.error.message;
 				state.isLoading = false;
 				toast.info(message);
 			})
@@ -115,7 +116,7 @@ const carsSlice = createSlice({
 				toast.info("Data created successfully");
 			})
 			.addCase(AddNewCar.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
@@ -141,7 +142,7 @@ const carsSlice = createSlice({
 				toast.info("Data updated successfully");
 			})
 			.addCase(UpdateCar.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
@@ -166,7 +167,7 @@ const carsSlice = createSlice({
 				toast.info("Data deleted successfully");
 			})
 			.addCase(DeleteCar.rejected, (state, action: any) => {
-				const message: any = action.payload.message;
+				const message: any = action.error.message;
 				state.isLoading = false;
 				if (typeof message === "string") {
 					toast.error(message);
