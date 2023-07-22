@@ -14,7 +14,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Text } from "../Text";
-
+import axios from 'axios';
 const pages = ["Categories", "Cars"];
 const settings = ["Logout"];
 
@@ -42,9 +42,15 @@ function Header() {
 		setAnchorElNav(null);
 	};
 
-	const handleCloseUserMenu = (value:string) => {
+	const handleCloseUserMenu = async (value:string) => {
 		setAnchorElUser(null);
+		// const token = sessionStorage.getItem("token")
 		if(value == 'Logout') {
+			// await axios.get(`${process.env.REACT_APP_BASE_URL}/users/logout`, {
+			// 	headers: {
+			// 	  Authorization: `Bearer ${token}`,
+			// 	},
+			//   });
 			sessionStorage.removeItem("token")
 			window.location.href = '/'
 		}
